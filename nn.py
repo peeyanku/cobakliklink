@@ -24,10 +24,10 @@ def chatbot(message):
 		page1 = requests.get(popo1)
 		koko1 = page1.json()[0]['status']
 		ket = page1.json()[0]['ket']
-		if koko == 'ook':
-			bot.send_message(message.chat.id,'Anda Sukses Membuat Brand', reply_markup=markup_inline1())
+		if ket == 'ook':
+			bot.send_message(message.chat.id,'Anda Sukses Membuat Brand', reply_markup=awak())
 		else:
-			bot.send_message(message.chat.id,ket, reply_markup=markup_inline1())
+			bot.send_message(message.chat.id,ket)
 	if re.findall('ganti wa#', teks):
 		bot.delete_message(message.chat.id, message.message_id)
 		bot.send_message(message.chat.id,'ok ganti wa', reply_markup=markup_inline1())
@@ -164,13 +164,13 @@ def chatbot(message):
 	if re.findall('♻️ Bantuan', teks):
 		bot.delete_message(message.chat.id, message.message_id)
 		bot.send_message(message.chat.id,"Silahkan Pilih Salah Satu Kontak Dibawah ini", reply_markup=bantuan())
-
-
-
-
-
-
-
+	if re.findall('🆎 About', teks):
+		bot.delete_message(message.chat.id, message.message_id)
+		bot.send_message(message.chat.id, "Masih Diperbaiki")
+	if re.findall('🛅 Buat Brand', teks):
+		bot.delete_message(message.chat.id, message.message_id)
+		pesan = 'Membuat Brand\n\nbrand berfungsi menjadi id link anda\nmisal brand anda bernama "koko"\nmaka, link yang didapatkan adalah\n1. Untuk Menuju ke chat whatsapp akan mendaparkan "cobaklik*link/koko"\n2. Untuk Link produk akan mendapatkan "cobaklik*link/koko-linkanda" dan linkanda bisa di custom sesuai keinginans'
+		bot.send_message(message.chat.id, pesan, reply_markup=carabuatbrandok())
 
 
  # jika menggunakan button
@@ -180,6 +180,10 @@ def callback_query(call):
 		bot.delete_message(call.message.chat.id, call.message.message_id)
 		pesan = 'Membuat Brand\n\nbrand berfungsi menjadi id link anda\nmisal brand anda bernama "koko"\nmaka, link yang didapatkan adalah\n1. Untuk Menuju ke chat whatsapp akan mendaparkan "cobaklik.link/koko"\n2. Untuk Link produk akan mendapatkan "cobaklik.link/koko-linkanda" dan linkanda bisa di custom sesuai keinginan\n\nCara Membuat Brand:\ncaranya adalah \nketik : buatbrandnamabrand\nnama brand ganti dengan nama brand yang ingin anda buat\nlalu kirimkan'
 		bot.send_message(call.message.chat.id, pesan, reply_markup=markup_inline1())
+	if call.data == "CaraBuatBrand":
+		bot.delete_message(call.message.chat.id, call.message.message_id)
+		pesan = 'Cara Membuat Brand:\ncaranya adalah \nketik : buatbrandnamabrand\nnama brand ganti dengan nama brand yang ingin anda buat\nlalu kirimkan'
+		bot.send_message(call.message.chat.id, pesan)
  # jika menggunakan button
 		
 		
@@ -193,7 +197,8 @@ def harga1():
 	e =  types.KeyboardButton("✅ doge")
 	f =  types.KeyboardButton("✅ ten")
 	g =  types.KeyboardButton("◀️️ Kembali")
-	markup.ResizeKeyboard = True
+	markup.resize_keyboard = True
+	markup.one_time_keyboard = False
 	markup.row(a,b,c)
 	markup.row(d,e,f)
 	markup.row(g)
@@ -206,10 +211,11 @@ def brandkosong1():
 	c =  types.KeyboardButton("🌐 Smart Contract")
 	g =  types.KeyboardButton("♻️ Bantuan")
 	h =  types.KeyboardButton("🆎 About")
+	markup.resize_keyboard = True
+	markup.one_time_keyboard = False
 	markup.height = 1
-	markup.row(a)
 	markup.row(b)
-	markup.row(c)
+	markup.row(a,c)
 	markup.row(g,h)
 	return markup
 	
@@ -223,13 +229,14 @@ def awak():
 	f =  types.KeyboardButton("🌐 Smart Contract")
 	g =  types.KeyboardButton("♻️ Bantuan")
 	h =  types.KeyboardButton("🆎 About")
+	markup.resize_keyboard = True
+	markup.one_time_keyboard = False
 	
 	markup.height = 1
 	markup.width = 1
-	markup.row(a)
-	markup.row(b,c)
-	markup.row(d,e)
-	markup.row(f)
+	markup.row(b)
+	markup.row(c,d,e)
+	markup.row(a,f)
 	markup.row(g,h)
 	return markup
 	
@@ -257,11 +264,11 @@ def bantuan():
 	)
 	return markup
 
-def markup_inline1():
+def carabuatbrandok():
 	markup = InlineKeyboardMarkup()
 	markup.width = 4
 	markup.add(
-		InlineKeyboardButton("Ke Menu Utama", callback_data = "Kembali")
+		InlineKeyboardButton("✅ Cara Buat Brand", callback_data = "CaraBuatBrand")
 	)
 	return markup
 	

@@ -1,1 +1,1 @@
-bot: python mm.py
+bot: python nn.py

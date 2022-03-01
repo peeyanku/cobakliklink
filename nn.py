@@ -274,10 +274,13 @@ def chatbot(message):
 			ket = page1.json()[0]['ket']
 			if ket == 'ook':
 				bot.delete_message(message.chat.id, message.message_id)
-				bot.send_message(message.chat.id,'Anda Sukses Membuat Brand',reply_markup=tombolbuatbrand())
+				idd = message.from_user.id
+				popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+				page1 = requests.get(popo1)
+				bot.send_message(message.chat.id,'Anda Sukses Membuat Brand',reply_markup=awak())
 			else:
 				bot.delete_message(message.chat.id, message.message_id)
-				bot.send_message(message.chat.id,ket,reply_markup=tombolbuatbrand())
+				bot.send_message(message.chat.id,ket+'\nSilahkan Masukkan Brand Anda Lagi, Atau Klik Kembali',reply_markup=tombolbuatbrand())
 
 
 

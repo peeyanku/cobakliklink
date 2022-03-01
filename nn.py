@@ -187,9 +187,27 @@ def chatbot(message):
 	if re.findall('🌐 Smart Contract', teks):
 		bot.delete_message(message.chat.id, message.message_id)
 		bot.send_message(message.chat.id, "Smart Contract\n0x09929382983287823872837283238")
+
 	if re.findall('🔗 Buat Link', teks):
 		bot.delete_message(message.chat.id, message.message_id)
-		bot.send_message(message.chat.id, "Masih Diperbaiki")
+		idd = message.from_user.id
+		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		page = requests.get(popo)
+		koko = page.json()['data']['status']
+
+
+		markup = types.ReplyKeyboardMarkup()
+		a =  types.KeyboardButton("💠 Masukkan Link Pendek")
+		b =  types.KeyboardButton("◀️️ Kembali")
+		markup.resize_keyboard = True
+		markup.one_time_keyboard = False
+		markup.row(b,a)
+
+		if koko == 'brand kosong':
+			bot.send_message(message.chat.id,"Anda Belum Bisa Membuat Link Karena Anda Belum Membuat Brand\nSilahkan Membuat Brand Dulu.", reply_markup=brandkosong1())
+		else:
+			bot.send_message(message.chat.id,'Silahkan Klik Tombol Masukkan Link Pendek',reply_markup=markup)
+
 
 	if re.findall('❇️ Link WA', teks):
 		bot.delete_message(message.chat.id, message.message_id)
@@ -260,34 +278,83 @@ def chatbot(message):
 		page1 = requests.get(popo1)
 		bot.send_message(message.chat.id,"Silahkan Masukkan Nama Brand Anda")
 
-	else:
+	if re.findall('💠 Masukkan Link Pendek', teks):
+		bot.delete_message(message.chat.id, message.message_id)
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=ambillogbot&id="+ str(idd)
-		page = requests.get(popo)
-		status = page.json()['data']['status']
-		if status == 'buatbrand':
-			bot.send_message(message.chat.id, 'Nama Brand Yang Kamu Pilih : '+teks+'\nSilahkan Tunggu....')
+		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=LinkPendek'
+		page1 = requests.get(popo1)
+		bot.send_message(message.chat.id,"Silahkan Masukkan Link Pendek Anda\nhasilnya seperti contoh:\ncobaklik*link/brandanda-linkpendek")
+
+	if re.findall('💠 Masukkan Link Tujuan', teks):
+		bot.delete_message(message.chat.id, message.message_id)
+		idd = message.from_user.id
+		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=LinkTujuan'
+		page1 = requests.get(popo1)
+		bot.send_message(message.chat.id,"Silahkan Copy Link Tujuan Anda, Dan Masukkan Kesini Sebagai Link Tujuan")
+
+	else:
+		if re.findall('💠', teks):
+			pass
+		else:
 			idd = message.from_user.id
-			popo1 = 'https://cobaklik.link/botuser.php?pancer=buatbrand&id='+str(idd)+'&brand='+teks;
-			page1 = requests.get(popo1)
-			koko1 = page1.json()[0]['status']
-			ket = page1.json()[0]['ket']
-			if ket == 'ook':
-				bot.delete_message(message.chat.id, message.message_id)
+			popo = "https://cobaklik.link/botuser.php?pancer=ambillogbot&id="+ str(idd)
+			page = requests.get(popo)
+			status = page.json()['data']['status']
+
+			if status == 'buatbrand':
+				bot.send_message(message.chat.id, 'Nama Brand Yang Kamu Pilih : '+teks+'\nSilahkan Tunggu....')
 				idd = message.from_user.id
-				popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatbrand&id='+str(idd)+'&brand='+teks;
 				page1 = requests.get(popo1)
-				bot.send_message(message.chat.id,'Anda Sukses Membuat Brand',reply_markup=awak())
-			else:
-				bot.delete_message(message.chat.id, message.message_id)
-				bot.send_message(message.chat.id,ket+'\nSilahkan Masukkan Brand Anda Lagi, Atau Klik Kembali',reply_markup=tombolbuatbrand())
+				koko1 = page1.json()[0]['status']
+				ket = page1.json()[0]['ket']
+				if ket == 'ook':
+					bot.delete_message(message.chat.id, message.message_id)
+					idd = message.from_user.id
+					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+					page1 = requests.get(popo1)
+					bot.send_message(message.chat.id,'Anda Sukses Membuat Brand',reply_markup=awak())
+				else:
+					bot.delete_message(message.chat.id, message.message_id)
+					bot.send_message(message.chat.id,ket+'\nSilahkan Masukkan Brand Anda Lagi, Atau Klik Kembali',reply_markup=tombolbuatbrand())
 
+			if status == 'LinkPendek':
+				bot.send_message(message.chat.id, 'Link Pendek Yang Kamu Masukkan : '+teks+'\nSilahkan Tunggu....')
+				idd = message.from_user.id
+				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatlink1&id='+str(idd)+'&linkpendek='+teks;
+				page1 = requests.get(popo1)
+				status = page1.json()['data']['status']
+				ket = page1.json()['data']['ket']
 
+				if status == 'true':
+					bot.delete_message(message.chat.id, message.message_id)
+					markup = types.ReplyKeyboardMarkup()
+					a =  types.KeyboardButton("💠 Masukkan Link Tujuan")
+					b =  types.KeyboardButton("◀️️ Kembali")
+					markup.resize_keyboard = True
+					markup.one_time_keyboard = False
+					markup.row(b,a)
+					bot.send_message(message.chat.id,'Silahkan Klik Tombol Masukkan Link Tujuan',reply_markup=markup)
+				else:
+					bot.delete_message(message.chat.id, message.message_id)
+					bot.send_message(message.chat.id,ket)
+			if status == 'LinkTujuan':
+				bot.send_message(message.chat.id, 'Link Tujuan Yang Kamu Masukkan : \n'+teks+'\nSilahkan Tunggu....')
+				idd = message.from_user.id
+				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatlink2&id='+str(idd)+'&linktujuan='+teks;
+				page1 = requests.get(popo1)
+				status = page1.json()['data']['status']
+				ket = page1.json()['data']['ket']
 
-
-
-
-
+				if status == 'true':
+					bot.delete_message(message.chat.id, message.message_id)
+					idd = message.from_user.id
+					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+					page1 = requests.get(popo1)
+					bot.send_message(message.chat.id,ket,reply_markup=awak())
+				else:
+					bot.delete_message(message.chat.id, message.message_id)
+					bot.send_message(message.chat.id,ket)
 
 
 

@@ -7,7 +7,7 @@ from telebot import types
 tokenb = "5265076361:AAE6YB-PtXjrcPY94gBlOUSdCbMZdGk9p0c"
 bot = telebot.TeleBot(tokenb)
 
-
+busak=''
 # uplid ke peeyank bukan ke hadiok
 
 @bot.message_handler(content_types=["text"])
@@ -172,7 +172,12 @@ def chatbot(message):
 		paket = page.json()[0]['paket']
 		tanggalberakhir = page.json()[0]['tanggalberakhir']
 		nama = page.json()[0]['nama']
-		mama ='»» Profil ««\n\n🆔 ID Pengguna : '+str(idd)+'\n💎 Nama Brand : '+nama+'\n🧰 Paket : '+paket+'\n📬 Link Dibuat : '+str(link)+'\n📭 Total Link Tersedia : '+str(linktersedia)+'\n📆 Akhir Paket : '+tanggalberakhir+'\nℹ️ bot coba klik link\n'
+		popo1 = "https://cobaklik.link/botuser.php?pancer=perbaikitanggal&id="+ str(tanggalberakhir)
+		page1 = requests.get(popo1)
+
+		alhir = page1.json()['data']['ket']
+
+		mama ='»» Profil ««\n\n🆔 ID Pengguna : '+str(idd)+'\n💎 Nama Brand : '+nama+'\n🧰 Paket : '+paket+'\n📬 Link Dibuat : '+str(link)+'\n📭 Total Link Tersedia : '+str(linktersedia)+'\n📆 Akhir Paket : '+alhir+'\nℹ️ bot coba klik link\n'
 		bot.send_message(message.chat.id, mama)
 
 	if re.findall('💠 Harga Coin', teks):
@@ -206,7 +211,7 @@ def chatbot(message):
 				bot.send_message(message.chat.id,'Silahkan Tunggu...',reply_markup=markup)
 				popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=LinkPendek'
 				page1 = requests.get(popo1)
-				bot.send_message(message.chat.id,"Silahkan Masukkan Link Pendek Anda\nhasilnya seperti contoh:\ncobaklik*link/brandanda-linkpendek")
+				bot.send_message(message.chat.id,"Silahkan Masukkan Link Pendek Anda\nhasilnya seperti contoh:\n\ncobaklik,link/brand-(linkpendek)\n\nCukup Masukkan untuk Kata Dalam Kurung")
 			else:
 				bot.send_message(message.chat.id,ket,reply_markup=awak())
 
@@ -231,13 +236,28 @@ def chatbot(message):
 		bot.send_message(message.chat.id, mama)
 		aa = page.json()
 		asa = 0
-
-		markup = InlineKeyboardMarkup()
-		markup.width = 4
+		pertama = aa[0]['id']
+		
 
 		for c in aa: 
 			asa = asa + 1
-			bot.send_message(message.chat.id, str(asa) + '. cobaklik.link/' + c['as'], reply_markup=markup)
+			idaaaaa = c['id']
+			if idaaaaa == pertama:
+				markup = InlineKeyboardMarkup()
+				markup.width = 2
+				markup.add(
+					InlineKeyboardButton("⭕️ Hapus", callback_data='Tidakbisahapus'),
+					InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + c['as'])
+				)
+				bot.send_message(message.chat.id, str(asa) + '. cobaklik,link/' + c['as'], reply_markup=markup)
+			else:
+				markup = InlineKeyboardMarkup()
+				markup.width = 2
+				markup.add(
+					InlineKeyboardButton("⭕️ Hapus", 'cobaklik.link/hapus.php?id=' + c['id']),
+					InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + c['as'])
+				)
+				bot.send_message(message.chat.id, str(asa) + '. cobaklik,link/' + c['as'], reply_markup=markup)
 
 	if re.findall('♻️ Bantuan', teks):
 		bot.send_message(message.chat.id,"Silahkan Pilih Salah Satu Kontak Dibawah ini", reply_markup=bantuan())
@@ -385,6 +405,16 @@ def callback_query(call):
 		bot.delete_message(call.message.chat.id, call.message.message_id)
 		pesan = 'Cara Membuat Brand:\ncaranya adalah \nketik : buatbrandnamabrand\nnama brand ganti dengan nama brand yang ingin anda buat\nlalu kirimkan'
 		bot.send_message(call.message.chat.id, pesan)
+	if call.data == "Tidakbisahapus":
+		bot.delete_message(call.message.chat.id, call.message.message_id)
+		pesan = 'Link Standar Tidak Bisa Dihapus'
+		bot.send_message(call.message.chat.id, pesan)
+	else:
+		if re.findall('cobaklik.link/hapus.php', call.data):
+			bot.delete_message(call.message.chat.id, call.message.message_id)
+			pesan = 'buka link untuk menghapus'
+			bot.send_message(call.message.chat.id, pesan)
+
  # jika menggunakan button
 		
 
@@ -443,8 +473,6 @@ def brandkosong1():
 	
 	markup.height = 1
 	markup.width = 1
-	markup.row(b,c,d)
-	markup.row(e,i,j)
 	markup.row(a,g,h)
 	return markup
 	

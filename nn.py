@@ -251,10 +251,9 @@ def chatbot(message):
 
 		popo1 = "https://cobaklik.link/botuser.php?pancer=ambilnomorwa&id="+ str(idd)
 		page1 = requests.get(popo1)
-		print(page1.json())
 		linkwa = page.json()[0]['pendek']
 		nomorwa = page1.json()['data']['ket']
-
+	
 		markup = InlineKeyboardMarkup()
 		markup.width = 2
 		markup.add(
@@ -269,47 +268,62 @@ def chatbot(message):
 
 	if re.findall('🛄 Semua Link', teks):
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=semualink&id="+ str(idd)
+
+		popo1 = "https://cobaklik.link/botuser.php?pancer=profil&id="+ str(idd)
+		page1 = requests.get(popo1)
+
+		totalklik = page1.json()[0]['semuaklik']
+		totallink = page1.json()[0]['link']
+
+		popo = "https://cobaklik.link/botuser.php?pancer=statistik&id="+ str(idd)
 		page = requests.get(popo)
-		mama ='»» Semua Link Yank Kamu Punya ««\n\n'
-		bot.send_message(message.chat.id, mama)
+		mama ='🗄Total Link Yang Kamu Buat : '+str(totallink)+'\n📐 Total Semua Klik : '+str(totalklik)
+		#bot.send_message(message.chat.id, '»» Semua Link ««\n\n')
 		aa = page.json()
 		asa = 0
 		pertama = aa[0]['id']
-		
 		semualink = ''
 					
 		for c in aa: 
 			asa = asa + 1
 			idaaaaa = c['id']
 			if idaaaaa == pertama:
-				semualink += 'cobaklik.link/' + c['as']+'\n'
+				semualink += 'cobaklik.link/' + c['link']+'\n'
 				markup = InlineKeyboardMarkup()
-				markup.width = 2
+				markup.width = 1
 				markup.add(
+					InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
+				)
+				markup.add(
+					InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
 					InlineKeyboardButton("⭕️ Hapus", callback_data='Tidakbisahapus'),
-					InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + c['as']),
-					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['as'])
+					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
+					InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
 				)
-				bot.send_message(message.chat.id, str(asa) + '. cobaklik,link/' + c['as'], reply_markup=markup)
+				bot.send_message(message.chat.id, str(asa), reply_markup=markup)
 			else:
-				semualink += 'cobaklik.link/' + c['as']+'\n'
+				semualink += 'cobaklik.link/' + c['link']+'\n'
 				markup = InlineKeyboardMarkup()
-				markup.width = 2
+				markup.width = 1
 				markup.add(
-					InlineKeyboardButton("⭕️ Hapus", 'cobaklik.link/hapus.php?id=' + c['id']),
-					InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + c['as']),
-					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['as'])
+					InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
+					
 				)
-				bot.send_message(message.chat.id, str(asa) + '. cobaklik,link/' + c['as'], reply_markup=markup)
-			
+				markup.add(
+					InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
+					InlineKeyboardButton("⭕️ Hapus", 'cobaklik.link/hapus.php?id=' + c['id']),
+					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
+					InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
+					
+				)
+				bot.send_message(message.chat.id, str(asa), reply_markup=markup)
 
 		markup = InlineKeyboardMarkup()
-		markup.width = 2
+		markup.width = 1
 		markup.add(
 			InlineKeyboardButton("📤 Kirim Semua Link", 'https://api.whatsapp.com/send/?phone=&text='+semualink)
 		)
-		bot.send_message(message.chat.id, 'Data diatas adalah semua link yang kamu punya, untuk mengirimkan semua link, klik tombol dibawah', reply_markup=markup)
+		bot.send_message(message.chat.id, mama, reply_markup=markup)
 
 	if re.findall('♻️ Bantuan', teks):
 		bot.send_message(message.chat.id,"Silahkan Pilih Salah Satu Kontak Dibawah ini", reply_markup=bantuan())

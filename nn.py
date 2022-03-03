@@ -1,5 +1,7 @@
 import telebot
 import requests
+import mysql.connector
+import random
 import json
 import re
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
@@ -7,8 +9,13 @@ from telebot import types
 tokenb = "5265076361:AAE6YB-PtXjrcPY94gBlOUSdCbMZdGk9p0c"
 bot = telebot.TeleBot(tokenb)
 
-busak=''
-# uplid ke peeyank bukan ke hadiok
+keamanan = 0
+
+#cnx = mysql.connector.connect(host="localhost",user='asu', password="Winda1515.,", database='link')
+cnx = mysql.connector.connect(host="localhost",user='wspd9778_nita', password="Winda1515.,", database='wspd9778_link')
+
+
+
 
 @bot.message_handler(content_types=["text"])
 def chatbot(message):
@@ -16,11 +23,11 @@ def chatbot(message):
 	teks = message.text
 	if re.findall('buatbrand', teks):
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=pisah&id="+teks
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=pisah&id="+teks
 		page = requests.get(popo)
 		koko = page.json()['data']['hasil']
 		
-		popo1 = 'https://cobaklik.link/botuser.php?pancer=buatbrand&id='+str(idd)+'&brand='+koko;
+		popo1 = 'https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=buatbrand&id='+str(idd)+'&brand='+koko;
 		page1 = requests.get(popo1)
 		koko1 = page1.json()[0]['status']
 		ket = page1.json()[0]['ket']
@@ -37,11 +44,11 @@ def chatbot(message):
 	
 
 	if re.findall('/start', teks):
-		pesan = 'Menu Utama => akses menu utama ketik /menu'
+		pesan = 'Ini adalah layanan pemendek link\nAnda bisa mendapatkan link untuk menuju ke whatsapp anda\nDisini juga bisa membuat link pendek untuk menuju link produk anda.\nSilahkan Explore menu untuk mendapatkan fiture menariknya.'
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
 		page = requests.get(popo)
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 		page1 = requests.get(popo1)
 		koko = page.json()['data']['status']
 		if koko == 'brand kosong':
@@ -50,11 +57,11 @@ def chatbot(message):
 			bot.send_message(message.chat.id,pesan, reply_markup=awak())
 
 	if re.findall('/menu', teks):
-		pesan = 'Menu Utama => akses menu utama ketik /menu'
+		pesan = 'Ini adalah layanan pemendek link\nAnda bisa mendapatkan link untuk menuju ke whatsapp anda\nDisini juga bisa membuat link pendek untuk menuju link produk anda.\nSilahkan Explore menu untuk mendapatkan fiture menariknya.'
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
 		page = requests.get(popo)
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=menu'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=menu'
 		page1 = requests.get(popo1)
 		koko = page.json()['data']['status']
 		if koko == 'brand kosong':
@@ -66,9 +73,9 @@ def chatbot(message):
 	if re.findall('️️ Kembali', teks):
 		pesan = 'Menu Utama => akses menu utama ketik /menu'
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
 		page = requests.get(popo)
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 		page1 = requests.get(popo1)
 		koko = page.json()['data']['status']
 		if koko == 'brand kosong':
@@ -80,9 +87,9 @@ def chatbot(message):
 	if re.findall('💠 Batalkan', teks):
 		pesan = 'waduh Kenapa Dibatalkan...?'
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
 		page = requests.get(popo)
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 		page1 = requests.get(popo1)
 		koko = page.json()['data']['status']
 		if koko == 'brand kosong':
@@ -164,49 +171,35 @@ def chatbot(message):
 		' Ini Adalah Rp '+harfa)
 
 	if re.findall('🧑‍🎤 Profile',teks):
+		print(keamanannya())
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=profil&id="+ str(idd)
-		page = requests.get(popo)
-		link = page.json()[0]['link']
-		linktersedia = page.json()[0]['piket']
-		paket = page.json()[0]['paket']
-		tanggalberakhir = page.json()[0]['tanggalberakhir']
-		nama = page.json()[0]['nama']
-		popo1 = "https://cobaklik.link/botuser.php?pancer=perbaikitanggal&id="+ str(tanggalberakhir)
-		page1 = requests.get(popo1)
-		alhir = ''
-		if paket == 'easy':
-			alhir = 'Aktif Selamanya'
+		popoawwal = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
+		pageawal = requests.get(popoawwal)
+		kokoawal = pageawal.json()['data']['status']
+		if kokoawal == 'brand kosong':
+			bot.send_message(message.chat.id,'Anda Belum Buat Brand Silahkan Buat Dulu', reply_markup=brandkosong1())
 		else:
-			alhir = page1.json()['data']['ket']
+			idd = message.from_user.id
+			popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=profil&id="+ str(idd)
+			page = requests.get(popo)
+			link = page.json()[0]['link']
+			linktersedia = page.json()[0]['piket']
+			paket = page.json()[0]['paket']
+			tanggalberakhir = page.json()[0]['tanggalberakhir']
+			nama = page.json()[0]['nama']
+			popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=perbaikitanggal&id="+ str(tanggalberakhir)
+			page1 = requests.get(popo1)
+			alhir = ''
+			if paket == 'easy':
+				alhir = 'Aktif Selamanya'
+			else:
+				alhir = page1.json()['data']['ket']
 
-		mama ='»» Profil ««\n\n🆔 ID Pengguna : '+str(idd)+'\n💎 Nama Brand : '+nama+'\n🧰 Paket : '+paket+'\n📬 Link Dibuat : '+str(link)+'\n📭 Total Link Tersedia : '+str(linktersedia)+'\n📆 Akhir Paket : '+alhir+'\nℹ️ bot coba klik link\n'
-		bot.send_message(message.chat.id, mama)
+			mama ='»» Profil ««\n\n🆔 ID Pengguna : '+str(idd)+'\n💎 Nama Brand : '+nama+'\n🧰 Paket : '+paket+'\n📬 Link Dibuat : '+str(link)+'\n📭 Total Link Tersedia : '+str(linktersedia)+'\n📆 Akhir Paket : '+alhir+'\nℹ️ bot coba klik link\n'
+			bot.send_message(message.chat.id, mama)
 
-	if re.findall('📶 Statistik',teks):
-		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=statistik&id="+ str(idd)
-		page = requests.get(popo)
-		popo1 = "https://cobaklik.link/botuser.php?pancer=profil&id="+ str(idd)
-		page1 = requests.get(popo1)
-
-		totalklik = page1.json()[0]['semuaklik']
-		totallink = page1.json()[0]['link']
-
-		mama ='»» Statistik Data Link ««\n\n📐 Total Semua Klik Link Kamu : '+str(totalklik)+'\n🗄Total Link Yang Kamu Buat : '+str(totallink)
-		bot.send_message(message.chat.id, mama)
-		aa = page.json()
-		asa = 0
-		markup = InlineKeyboardMarkup()
-		markup.width = 2
-					
-		for c in aa: 
-			asa = asa + 1
-			markup.add(
-				InlineKeyboardButton(str(asa)+'. cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link']),
-				InlineKeyboardButton(str(c['klik'])+' Klik', 'cobaklik.link/' + c['link']),
-			)
-		bot.send_message(message.chat.id, '🗃 Link Kamu Dan Total Klik', reply_markup=markup)
+	if re.findall('🗃 News',teks):
+		bot.send_message(message.chat.id, 'masih Diperbaiki')
 
 			
 	if re.findall('💠 Harga Coin', teks):
@@ -217,7 +210,7 @@ def chatbot(message):
 
 	if re.findall('💠 Buat Link', teks):
 		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=awal&id="+ str(idd)
+		popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
 		page = requests.get(popo)
 		koko = page.json()['data']['status']
 
@@ -232,104 +225,119 @@ def chatbot(message):
 			bot.send_message(message.chat.id,"Anda Belum Bisa Membuat Link Karena Anda Belum Membuat Brand\nSilahkan Membuat Brand Dulu.", reply_markup=brandkosong1())
 		else:
 			idd = message.from_user.id
-			popo1 = "https://cobaklik.link/botuser.php?pancer=cekpaket&id="+ str(idd)
+			popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=cekpaket&id="+ str(idd)
 			page1 = requests.get(popo1)
 			status = page1.json()['data']['status']
 			ket = page1.json()['data']['ket']
 			if status == 'true':
 				bot.send_message(message.chat.id,'Silahkan Tunggu...',reply_markup=markup)
-				popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=LinkPendek'
+				popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=LinkPendek'
 				page1 = requests.get(popo1)
 				bot.send_message(message.chat.id,"Silahkan Masukkan Link Pendek Anda\nhasilnya seperti contoh:\n\ncobaklik,link/brand-(linkpendek)\n\nCukup Masukkan untuk Kata Dalam Kurung")
 			else:
 				bot.send_message(message.chat.id,ket,reply_markup=awak())
 
 	if re.findall('❇️ Link WA', teks):
-		idd = message.from_user.id
-		popo = "https://cobaklik.link/botuser.php?pancer=linkwa&id="+ str(idd)
-		page = requests.get(popo)
 
-		popo1 = "https://cobaklik.link/botuser.php?pancer=ambilnomorwa&id="+ str(idd)
-		page1 = requests.get(popo1)
-		linkwa = page.json()[0]['pendek']
-		nomorwa = page1.json()['data']['ket']
-	
-		markup = InlineKeyboardMarkup()
-		markup.width = 2
-		markup.add(
-			InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + linkwa),
-			InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai...\nini link wa ku\ncobaklik.link/' + linkwa)
-		)
-	
-		mama ='»» Link Whatsapp Kamu ««\n\n# Ini Nomor Whatsapp Kamu\n📞 '+nomorwa+'\n\n# ini Link Whatsapp Kamu\n⛓ cobaklik,link/'+linkwa
-		bot.send_message(message.chat.id, mama,reply_markup=gantinomorwa())
-		bot.send_message(message.chat.id,'🎁 Jika Link Diatas di Klik , Akan langsung menuju ke whatsapp kamu\n🎁 untuk test dan kirim linknya\nsilahkan klik tombol dibawah ini.', reply_markup=markup)
+		idd = message.from_user.id
+		popoawwal = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
+		pageawal = requests.get(popoawwal)
+		kokoawal = pageawal.json()['data']['status']
+		if kokoawal == 'brand kosong':
+			bot.send_message(message.chat.id,'Anda Belum Buat Brand Silahkan Buat Dulu', reply_markup=brandkosong1())
+		else:
+			idd = message.from_user.id
+			popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=linkwa&id="+ str(idd)
+			page = requests.get(popo)
+
+			popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=ambilnomorwa&id="+ str(idd)
+			page1 = requests.get(popo1)
+			linkwa = page.json()[0]['pendek']
+			nomorwa = page1.json()['data']['ket']
+		
+			markup = InlineKeyboardMarkup()
+			markup.width = 2
+			markup.add(
+				InlineKeyboardButton("🌐 Launch", 'cobaklik.link/' + linkwa),
+				InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai...\nini link wa ku\ncobaklik.link/' + linkwa)
+			)
+		
+			mama ='»» Link Whatsapp Kamu ««\n\n# Ini Nomor Whatsapp Kamu\n📞 '+nomorwa+'\n\n# ini Link Whatsapp Kamu\n⛓ cobaklik,link/'+linkwa
+			bot.send_message(message.chat.id, mama,reply_markup=gantinomorwa())
+			bot.send_message(message.chat.id,'🎁 Jika Link Diatas di Klik , Akan langsung menuju ke whatsapp kamu\n🎁 untuk test dan kirim linknya\nsilahkan klik tombol dibawah ini.', reply_markup=markup)
 
 
 	if re.findall('🛄 Semua Link', teks):
 		idd = message.from_user.id
+		popoawwal = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=awal&id="+ str(idd)
+		pageawal = requests.get(popoawwal)
+		kokoawal = pageawal.json()['data']['status']
+		if kokoawal == 'brand kosong':
+			bot.send_message(message.chat.id,'Anda Belum Buat Brand Silahkan Buat Dulu', reply_markup=brandkosong1())
+		else:
+			idd = message.from_user.id
 
-		popo1 = "https://cobaklik.link/botuser.php?pancer=profil&id="+ str(idd)
-		page1 = requests.get(popo1)
+			popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=profil&id="+ str(idd)
+			page1 = requests.get(popo1)
 
-		totalklik = page1.json()[0]['semuaklik']
-		totallink = page1.json()[0]['link']
+			totalklik = page1.json()[0]['semuaklik']
+			totallink = page1.json()[0]['link']
 
-		popo = "https://cobaklik.link/botuser.php?pancer=statistik&id="+ str(idd)
-		page = requests.get(popo)
-		mama ='🗄Total Link Yang Kamu Buat : '+str(totallink)+'\n📐 Total Semua Klik : '+str(totalklik)
-		#bot.send_message(message.chat.id, '»» Semua Link ««\n\n')
-		aa = page.json()
-		asa = 0
-		pertama = aa[0]['id']
-		semualink = ''
-					
-		for c in aa: 
-			asa = asa + 1
-			idaaaaa = c['id']
-			if idaaaaa == pertama:
-				semualink += 'cobaklik.link/' + c['link']+'\n'
-				markup = InlineKeyboardMarkup()
-				markup.width = 1
-				markup.add(
-					InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
-				)
-				markup.add(
-					InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
-					InlineKeyboardButton("⭕️ Hapus", callback_data='Tidakbisahapus'),
-					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
-					InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
-				)
-				bot.send_message(message.chat.id, str(asa), reply_markup=markup)
-			else:
-				semualink += 'cobaklik.link/' + c['link']+'\n'
-				markup = InlineKeyboardMarkup()
-				markup.width = 1
-				markup.add(
-					InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
-					
-				)
-				markup.add(
-					InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
-					InlineKeyboardButton("⭕️ Hapus", 'cobaklik.link/hapus.php?id=' + c['id']),
-					InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
-					InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
-					
-				)
-				bot.send_message(message.chat.id, str(asa), reply_markup=markup)
+			popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=statistik&id="+ str(idd)
+			page = requests.get(popo)
+			mama ='🗄Total Link Yang Kamu Buat : '+str(totallink)+'\n📐 Total Semua Klik : '+str(totalklik)
+			#bot.send_message(message.chat.id, '»» Semua Link ««\n\n')
+			aa = page.json()
+			asa = 0
+			pertama = aa[0]['id']
+			semualink = ''
+						
+			for c in aa: 
+				asa = asa + 1
+				idaaaaa = c['id']
+				if idaaaaa == pertama:
+					semualink += 'cobaklik.link/' + c['link']+'\n'
+					markup = InlineKeyboardMarkup()
+					markup.width = 1
+					markup.add(
+						InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
+					)
+					markup.add(
+						InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
+						InlineKeyboardButton("⭕️ Hapus", callback_data='Tidakbisahapus'),
+						InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
+						InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
+					)
+					bot.send_message(message.chat.id, str(asa), reply_markup=markup)
+				else:
+					semualink += 'cobaklik.link/' + c['link']+'\n'
+					markup = InlineKeyboardMarkup()
+					markup.width = 1
+					markup.add(
+						InlineKeyboardButton('cobaklik.link/' + c['link'], 'cobaklik.link/' + c['link'])
+						
+					)
+					markup.add(
+						InlineKeyboardButton(str(c['klik'])+" Klik", 'cobaklik.link/' + c['link']),
+						InlineKeyboardButton("⭕️ Hapus", 'cobaklik.link/hapus.php?id=' + c['id']),
+						InlineKeyboardButton("📦 Kirim Link", 'https://api.whatsapp.com/send/?phone=&text='+'hai\nini link ku\ncobaklik.link/' + c['link']),
+						InlineKeyboardButton("🌐 Klik", 'cobaklik.link/' + c['link'])
+						
+					)
+					bot.send_message(message.chat.id, str(asa), reply_markup=markup)
 
-		markup = InlineKeyboardMarkup()
-		markup.width = 1
-		markup.add(
-			InlineKeyboardButton("📤 Kirim Semua Link", 'https://api.whatsapp.com/send/?phone=&text='+semualink)
-		)
-		bot.send_message(message.chat.id, mama, reply_markup=markup)
+			markup = InlineKeyboardMarkup()
+			markup.width = 1
+			markup.add(
+				InlineKeyboardButton("📤 Kirim Semua Link", 'https://api.whatsapp.com/send/?phone=&text='+semualink)
+			)
+			bot.send_message(message.chat.id, mama, reply_markup=markup)
 
 	if re.findall('♻️ Bantuan', teks):
 		bot.send_message(message.chat.id,"Silahkan Pilih Salah Satu Kontak Dibawah ini", reply_markup=bantuan())
 	if re.findall('🆎 About', teks):
 		idd = message.from_user.id
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=about'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=about'
 		page1 = requests.get(popo1)
 
 		markup = types.ReplyKeyboardMarkup()
@@ -347,7 +355,7 @@ def chatbot(message):
 	if re.findall('💠 Ganti Nomor Whatsapp', teks):
 		pancerbatal = '💠 Ganti Nomor Whatsapp'
 		idd = message.from_user.id
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=GantiWa'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=GantiWa'
 		page1 = requests.get(popo1)
 
 		markup = types.ReplyKeyboardMarkup()
@@ -364,7 +372,7 @@ def chatbot(message):
 	if re.findall('💠 Masukkan Brand Anda', teks):
 		pancerbatal = '💠 Masukkan Brand Anda'
 		idd = message.from_user.id
-		popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=buatbrand'
+		popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=buatbrand'
 		page1 = requests.get(popo1)
 		markup = types.ReplyKeyboardMarkup()
 		b =  types.KeyboardButton("💠 Batalkan")
@@ -378,20 +386,20 @@ def chatbot(message):
 			pass
 		else:
 			idd = message.from_user.id
-			popo = "https://cobaklik.link/botuser.php?pancer=ambillogbot&id="+ str(idd)
+			popo = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=ambillogbot&id="+ str(idd)
 			page = requests.get(popo)
 			status = page.json()['data']['status']
 
 			if status == 'buatbrand':
 				bot.send_message(message.chat.id, 'Nama Brand Yang Kamu Pilih : '+teks+'\nSilahkan Tunggu....')
 				idd = message.from_user.id
-				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatbrand&id='+str(idd)+'&brand='+teks;
+				popo1 = 'https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=buatbrand&id='+str(idd)+'&brand='+teks;
 				page1 = requests.get(popo1)
 				koko1 = page1.json()[0]['status']
 				ket = page1.json()[0]['ket']
 				if ket == 'ook':
 					idd = message.from_user.id
-					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+					popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 					page1 = requests.get(popo1)
 					bot.send_message(message.chat.id,'Anda Sukses Membuat Brand',reply_markup=awak())
 				else:
@@ -400,7 +408,7 @@ def chatbot(message):
 			if status == 'LinkPendek':
 				bot.send_message(message.chat.id, 'Link Pendek Yang Kamu Masukkan : '+teks+'\nSilahkan Tunggu....')
 				idd = message.from_user.id
-				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatlink1&id='+str(idd)+'&linkpendek='+teks;
+				popo1 = 'https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=buatlink1&id='+str(idd)+'&linkpendek='+teks;
 				page1 = requests.get(popo1)
 				status = page1.json()['data']['status']
 				ket = page1.json()['data']['ket']
@@ -412,7 +420,7 @@ def chatbot(message):
 					markup.one_time_keyboard = False
 					markup.row(b)
 					idd = message.from_user.id
-					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=LinkTujuan'
+					popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=LinkTujuan'
 					page1 = requests.get(popo1)
 					bot.send_message(message.chat.id,"Silahkan Copy Link Tujuan Anda, Dan Masukkan Kesini Sebagai Link Tujuan",reply_markup=markup)
 				else:
@@ -420,14 +428,14 @@ def chatbot(message):
 			if status == 'LinkTujuan':
 				bot.send_message(message.chat.id, 'Link Tujuan Yang Kamu Masukkan : \n'+teks+'\nSilahkan Tunggu....')
 				idd = message.from_user.id
-				popo1 = 'https://cobaklik.link/botuser.php?pancer=buatlink2&id='+str(idd)+'&linktujuan='+teks;
+				popo1 = 'https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=buatlink2&id='+str(idd)+'&linktujuan='+teks;
 				page1 = requests.get(popo1)
 				status = page1.json()['data']['status']
 				ket = page1.json()['data']['ket']
 
 				if status == 'true':
 					idd = message.from_user.id
-					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+					popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 					page1 = requests.get(popo1)
 					bot.send_message(message.chat.id,ket,reply_markup=awak())
 				else:
@@ -435,14 +443,14 @@ def chatbot(message):
 
 			if status == 'GantiWa':
 				idd = message.from_user.id
-				popo1 = "https://cobaklik.link/botuser.php?pancer=gantiwanya&id="+str(idd)+'&nomorwa='+str(teks)
+				popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=gantiwanya&id="+str(idd)+'&nomorwa='+str(teks)
 				page1 = requests.get(popo1)
 				status = page1.json()['data']['status']
 				ket = page1.json()['data']['ket']
 
 				if status == 'true':
 					idd = message.from_user.id
-					popo1 = "https://cobaklik.link/botuser.php?pancer=logbot&id="+ str(idd)+'&log=start'
+					popo1 = "https://cobaklik.link/botuser.php?keamanan="+str(keamanan)+"&pancer=logbot&id="+ str(idd)+'&log=start'
 					page1 = requests.get(popo1)
 					bot.send_message(message.chat.id,'>>Sukses<<\n\nAnda Sukses Mengganti Nomor Whatsapp',reply_markup=awak())
 				else:
@@ -484,6 +492,14 @@ def callback_query(call):
  # jika menggunakan button
 		
 
+
+def keamanannya():
+	keamanan = random.uniform(1,100)
+	cursor = cnx.cursor()
+	query = "update  keamanan set kode='"+str(keamanan)+"'"
+	cursor.execute(query)
+	cnx.commit()
+	return keamanan
 
 def tombolbuatbrand():
 	markup = types.ReplyKeyboardMarkup()
@@ -533,12 +549,14 @@ def brandkosong1():
 	g =  types.KeyboardButton("♻️ Bantuan")
 	h =  types.KeyboardButton("🆎 About")
 	i =  types.KeyboardButton("📬 Paket")
-	j =  types.KeyboardButton("📶 Statistik")
+	j =  types.KeyboardButton("🗃 News")
 	markup.resize_keyboard = True
 	markup.one_time_keyboard = False
 	
 	markup.height = 1
 	markup.width = 1
+	markup.row(b,c,d)
+	markup.row(e,i,j)
 	markup.row(a,g,h)
 	return markup
 	
@@ -552,7 +570,7 @@ def awak():
 	g =  types.KeyboardButton("♻️ Bantuan")
 	h =  types.KeyboardButton("🆎 About")
 	i =  types.KeyboardButton("📬 Paket")
-	j =  types.KeyboardButton("📶 Statistik")
+	j =  types.KeyboardButton("🗃 News")
 	markup.resize_keyboard = True
 	markup.one_time_keyboard = False
 	
@@ -637,7 +655,7 @@ bot.polling()
 
 
 # buat file Procfile isinya bot: python mm.py
-# ketik command pip freeze > requitements.txt
+# ketik command pip freeze > requirements.txt
 
 # heroku login
 # git init

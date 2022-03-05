@@ -6,7 +6,7 @@ import json
 import re
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton 
 from telebot import types
-tokenb = "5227432678:AAGLZx7dzxhtVdup7LT-98d5esRWU2sdAbk"
+tokenb = "5290804368:AAEfLK-LRqF8NCfFj5I-bNeM2hogXp-sN-w"
 bot = telebot.TeleBot(tokenb)
 
 keamanan = 0

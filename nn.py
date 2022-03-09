@@ -11,11 +11,6 @@ bot = telebot.TeleBot(tokenb)
 
 keamanan = 0
 
-#cnx = mysql.connector.connect(host="localhost",user='asu', password="Winda1515.,", database='link')
-cnx = mysql.connector.connect(host="localhost",user='wspd9778_nita', password="Winda1515.,", database='wspd9778_link')
-
-
-
 
 @bot.message_handler(content_types=["text"])
 def chatbot(message):
@@ -492,14 +487,6 @@ def callback_query(call):
  # jika menggunakan button
 		
 
-
-def keamanannya():
-	keamanan = random.uniform(1,100)
-	cursor = cnx.cursor()
-	query = "update  keamanan set kode='"+str(keamanan)+"'"
-	cursor.execute(query)
-	cnx.commit()
-	return keamanan
 
 def tombolbuatbrand():
 	markup = types.ReplyKeyboardMarkup()
